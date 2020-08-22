@@ -1,56 +1,72 @@
 {
-    const tasks = [
-        {
-            content: "zrobić pranie",
-            done: false,
-        },
-        {
-            content: "zjeść obiad",
-            done: true,
-        },
-    ];
+  const tasks = [
+    {
+      content: "zrobić pranie",
+      done: false,
+    },
+    {
+      content: "zjeść obiad",
+      done: true,
+    },
+  ];
 
-    const render = () => {
-        let htmlString = "";
+  const addNewTask = (newTaskContent) => {
+    tasks.push({
+      content: newTaskContent,
+    });
 
-        for(const task of tasks){
-            htmlString += `
-            <li ${task.done ? "style=\"text-decoration: line-through\"" : ""}>
+    render();
+  };
+
+  const removeTask = (taskIndex) => {
+    tasks.splice(taskIndex, 1);
+    render();
+  };
+
+  const render = () => {
+    let htmlString = "";
+
+    for (const task of tasks) {
+      htmlString += `
+            <li 
+            ${task.done ? 'style="text-decoration: line-through"' : ""}
+            >
+                <button class="js-remove">usuń</button>
                 ${task.content}
             </li>
             `;
-        }
+    }
 
-        document.querySelector(".js-tasks").innerHTML = htmlString;
-    };
+    document.querySelector(".js-tasks").innerHTML = htmlString;
 
-    const addNewTask = (newTaskContent) => {
-        tasks.push({
-            content: newTaskContent,
-        });
+    const removeButtons = document.querySelectorAll(".js-remove");
 
-        render();
-    };
+    removeButtons.forEach((removeButton, taskIndex) => {
+      removeButton.addEventListener("click", () => {
+        removeTask(taskIndex);
+      });
+    });
+  };
 
-    const onFormSubmit = (event) => {
-        event.preventDefault();
+  const onFormSubmit = (event) => {
+    event.preventDefault();
 
-        const newTaskContent = document.querySelector(".js-newTask").value.trim();
+    const newTaskContent = document.querySelector(".js-newTask").value.trim();
 
-        if (newTaskContent === ""){
-            return;
-        } 
+    if (newTaskContent === "") {
+      return;
+    }
 
-        addNewTask(newTaskContent);
-    };
+    addNewTask(newTaskContent);
+  };
 
-    const init = () => {
-        render();
+  const init = () => {
+    render();
 
-        const form = document.querySelector(".js-form");
+    const form = document.querySelector(".js-form");
 
-        form.addEventListener("submit", onFormSubmit);
-    };
+    form.addEventListener("submit", onFormSubmit);
+  };
 
-    init();
+  init();
 }

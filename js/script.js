@@ -25,7 +25,7 @@
 
   const toggleTaskDone = (taskIndex) => {
     tasks[taskIndex].done = !tasks[taskIndex].done;
-    render(); 
+    render();
   };
 
   const bindEvents = () => {
@@ -37,27 +37,31 @@
       });
     });
 
-    const toggleDoneButtons = document.querySelectorAll(".js-done");
+    const toggleDoneButtons = document.querySelectorAll(".js-toggleDone");
 
     toggleDoneButtons.forEach((toggleDoneButton, taskIndex) => {
       toggleDoneButton.addEventListener("click", () => {
         toggleTaskDone(taskIndex);
       });
     });
-  }
+  };
 
   const render = () => {
     let htmlString = "";
 
     for (const task of tasks) {
       htmlString += `
-            <li 
-            ${task.done ? 'style="text-decoration: line-through"' : ""}
-            >
-                <button class="js-done">Zrobione?</button>
-                <button class="js-remove">usuń</button>
-                ${task.content}
-            </li>
+      <li 
+      class="tasks__item js-task"
+      >
+        <button class="tasks__button tasks__button--toggleDone js-toggleDone">
+          ${task.done ? "✔" : ""}
+        </button>
+        <span class="tasks__content${ task.done ? " tasks__content--done " : ""} ">zrobić pranie</span>
+        <button class="tasks__button tasks__button--remove js-remove">
+          🗑️
+        </button>
+    </li>
             `;
     }
 
